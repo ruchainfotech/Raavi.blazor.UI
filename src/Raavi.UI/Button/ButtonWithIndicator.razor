@@ -1,0 +1,74 @@
+﻿
+
+<button @attributes="@InputAttributes" disabled="@(isDisabled ? true : isBusy )" @onclick="args => btnDelete_Click(args)">
+    @if (isBusy)
+    {
+
+        @if (isShowLoadingTemplate)
+        {
+            if (LoadingTemplate == null)
+            {
+                <span class="spinner-border spinner-border-sm" style="margin-right:5px" role="status" aria-hidden="true"></span><span>Loading...</span>
+            }
+            else
+            {
+                @LoadingTemplate
+            }
+        }
+        else
+        {
+            <span class="spinner-border spinner-border-sm" style="margin-right:5px" role="status" aria-hidden="true"></span>@Text
+        }
+    }
+    else
+    {
+
+
+        if (TextTemplate == null)
+        {
+            if (!string.IsNullOrWhiteSpace(Text))
+            {
+                @Text
+            }
+            else
+            {
+                <Text> submit</Text>
+            }
+        }
+        else
+        {
+            @TextTemplate
+        }
+
+    }
+</button>
+
+@code {
+
+
+    [Parameter] public string Text { get; set; } = "";
+    [Parameter] public RenderFragment? TextTemplate { get; set; }
+    [Parameter] public RenderFragment? LoadingTemplate { get; set; }
+
+
+
+    [Parameter] public bool isBusy { get; set; } = false;
+    [Parameter] public bool isDisabled { get; set; } = false;
+    [Parameter] public bool isShowLoadingTemplate { get; set; } = false;
+    [Parameter] public EventCallback<bool> On_Click { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? InputAttributes { get; set; }
+
+
+
+
+    async Task btnDelete_Click(MouseEventArgs args)
+    {
+        //isBusy = true;
+        await On_Click.InvokeAsync(isBusy);
+
+    }
+
+
+}

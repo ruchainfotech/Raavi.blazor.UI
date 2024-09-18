@@ -1,0 +1,58 @@
+﻿@page "/ButtonPage"
+@rendermode InteractiveServer
+<h1>Button</h1>
+
+<h3>Semple Button</h3>
+<ButtonWithIndicator class="btn btn-primary" On_Click="@(() => btn1_Click())" isBusy="@isBusy" Text="Only Text" />
+<br />
+<br />
+<ButtonWithIndicator class="btn btn-info" On_Click="@(() => btn1_Click())" isBusy="@isBusy">
+    <TextTemplate>Text Template</TextTemplate>
+</ButtonWithIndicator>
+<br />
+<br />
+<ButtonWithIndicator class="btn btn-info" isShowLoadingTemplate="true" On_Click="@(() => btn1_Click())" isBusy="@isBusy">
+    <TextTemplate>
+        Text Template with HTML  
+        <ul>
+            <li>1</li>
+            <li>2</li>
+        </ul>
+    </TextTemplate>
+</ButtonWithIndicator>
+<br />
+<br />
+
+<ButtonWithIndicator class="btn btn-secondary" isShowLoadingTemplate="true" On_Click="@(() => btn1_Click())" isBusy="@isBusy">
+    <TextTemplate>Text Template with Default Loading Text</TextTemplate>
+</ButtonWithIndicator>
+<br />
+<br />
+<ButtonWithIndicator class="btn btn-info" isShowLoadingTemplate="true" On_Click="@(() => btn1_Click())" isBusy="@isBusy">
+    <TextTemplate>Text Template with custom loading text</TextTemplate>
+    <LoadingTemplate>Text Template with <span class="spinner-border spinner-border-sm" style="margin-right:5px" role="status" aria-hidden="true"></span> custom loading text</LoadingTemplate>
+</ButtonWithIndicator>
+
+<br />
+<br />
+<ButtonWithIndicator class="btn btn-info" isShowLoadingTemplate="true" On_Click="@(() => btn1_Click())" isBusy="@isBusy" Text="Text with custom loading">
+    <LoadingTemplate>Text with<span class="spinner-border spinner-border-sm" style="margin-right:5px" role="status" aria-hidden="true"></span> custom loading</LoadingTemplate>
+</ButtonWithIndicator>
+
+
+@code {
+    public bool isBusy { get; set; }
+
+    private async Task btn1_Click()
+    {
+        isBusy = true;
+        StateHasChanged();
+
+        await Task.Delay(TimeSpan.FromSeconds(3));
+
+        isBusy = false;
+        StateHasChanged();
+    }
+
+}
+<hr />

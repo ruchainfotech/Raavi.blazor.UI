@@ -1,0 +1,61 @@
+﻿<span @attributes="@InputAttributes" class="swbtn @(IsOn ? ClassOn : ClassOff)" @onclick="args => Checkbox_Click(args)">
+    @TextLeble
+
+    @if (TextLeble is not null)
+    {
+        @TextLeble
+    }
+
+
+    @if (IsOn)
+    {
+        @if (OnTemplate is null)
+        {
+            @*<i class="bi bi-toggle-on"></i>*@
+
+
+            <div class="s1Off"></div>
+        }
+        else
+        {
+            @OnTemplate
+        }
+
+    }
+    else
+    {
+        @if (OffTemplate is null)
+        {
+            @*<i class="bi bi-toggle-off"></i>*@
+
+            <div class="s1On">&nbsp;</div>
+        }
+        else
+        {
+            @OffTemplate
+        }
+    }
+
+
+
+</span>
+
+@code {
+    [Parameter] public RenderFragment? OffTemplate { get; set; }
+    [Parameter] public RenderFragment? OnTemplate { get; set; }
+    [Parameter] public RenderFragment? TextTemplate { get; set; }
+    [Parameter] public string? TextLeble { get; set; }
+    [Parameter] public bool IsShowBackCollor { get; set; } = false;
+    [Parameter] public bool IsOn { get; set; } = true;
+    [Parameter] public string ClassOn { get; set; } = "ClassOn";
+    [Parameter] public string ClassOff { get; set; } = "ClassOff";
+    [Parameter] public EventCallback<bool> CheckboxOnChange { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? InputAttributes { get; set; }
+
+    async Task Checkbox_Click(MouseEventArgs args)
+    {
+        IsOn = !IsOn;
+        await CheckboxOnChange.InvokeAsync(IsOn);
+    }
+}
